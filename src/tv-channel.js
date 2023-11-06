@@ -1,46 +1,61 @@
-// import stuff
+// tv-channel.js
 import { LitElement, html, css } from 'lit';
 
 export class TvChannel extends LitElement {
-  // defaults
-  constructor() {
-    super();
-    this.title = '';
-    this.presenter = '';
-  }
-  // convention I enjoy using to define the tag's name
-  static get tag() {
-    return 'tv-channel';
-  }
-  // LitElement convention so we update render() when values change
   static get properties() {
     return {
       title: { type: String },
       presenter: { type: String },
+      index: { type: Number },
     };
   }
-  // LitElement convention for applying styles JUST to our element
+
   static get styles() {
     return css`
       :host {
-        display: inline-flex;
+        display: block;
+        margin-bottom: 10px;
+        position: relative;
       }
       .wrapper {
         padding: 16px;
-        background-color: #eeeeee;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      :host::before {
+        content: var(--index);
+        position: absolute;
+        left: -36px; 
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: blue;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      h3, h4 {
+        margin: 0;
       }
     `;
   }
-  // LitElement rendering template of your element
+
   render() {
     return html`
-      <div class="wrapper">
+      <div class="wrapper" style="--index: '${this.index}';">
         <h3>${this.title}</h3>
-        <h4>${this.presenter}</h4>
-        <slot></slot>
-      </div>  
-      `;
+      </div>
+    `;
   }
 }
-// tell the browser about our tag and class it should run when it sees it
-customElements.define(TvChannel.tag, TvChannel);
+
+customElements.define('tv-channel', TvChannel);
