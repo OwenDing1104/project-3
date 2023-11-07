@@ -32,6 +32,14 @@ export class TvApp extends LitElement {
         display: block;
         margin: 16px;
         padding: 16px;
+        border: 2px solid black;
+      }
+
+      sl-dialog {
+        display: block;
+        margin: 16px;
+        border: 2px solid black;
+        background-color: grey;
       }
       `
     ];
@@ -58,7 +66,7 @@ export class TvApp extends LitElement {
       </div>
       <!-- dialog -->
       <sl-dialog label="Dialog" class="dialog">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Please Waiting for...
         <sl-button slot="footer" variant="primary" @click="${this.closeDialog}">Close</sl-button>
       </sl-dialog>
     `;
@@ -70,6 +78,11 @@ export class TvApp extends LitElement {
   }
 
   itemClick(e) {
+    this.activeItem = {
+      title:e.target.title,
+      id: e.target.id,
+      presenter: e.target.presenter
+    }
     console.log(e.target);
     const dialog = this.shadowRoot.querySelector('.dialog');
     dialog.show();
