@@ -96,7 +96,7 @@ render() {
     </div>
     <div class="main-content">
       <h3>${this.activeItem ? this.activeItem.title : 'Select a Topic'}</h3>
-      <div id="videoPlayerContainer">${videoPlayerTemplate}</div> <!-- Embed the video player template here -->
+      <div id="videoPlayerContainer">${videoPlayerTemplate}</div>
       <p>${this.activeItem ? this.activeItem.description : 'Select a topic from the sidebar to show its content here.'}</p>
     </div>
   `;
