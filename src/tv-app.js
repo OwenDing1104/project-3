@@ -1,112 +1,157 @@
-// import stuff
+// tv-app.js
 import { LitElement, html, css } from 'lit';
-import '@shoelace-style/shoelace/dist/components/dialog/dialog.js';
-import '@shoelace-style/shoelace/dist/components/button/button.js';
-import "./tv-channel.js";
 
 export class TvApp extends LitElement {
-  // defaults
   constructor() {
     super();
-    this.name = '';
+    this.name = 'OwenDingTV'; // Set the default name to your channel name
     this.source = new URL('../assets/channels.json', import.meta.url).href;
-    this.listings = [];
+    this.courses = [];
+    this.activeItem = null;
   }
-  // convention I enjoy using to define the tag's name
+
   static get tag() {
     return 'tv-app';
   }
-  // LitElement convention so we update render() when values change
+
   static get properties() {
     return {
       name: { type: String },
       source: { type: String },
-      listings: { type: Array },
+      courses: { type: Array },
+      activeItem: { type: Object },
     };
   }
-  // LitElement convention for applying styles JUST to our element
-  static get styles() {
-    return [
-      css`
-      :host {
-        display: block;
-        margin: 16px;
-        padding: 16px;
-        border: 2px solid black;
-      }
 
-      sl-dialog {
-        display: block;
-        margin: 16px;
-        border: 2px solid black;
-        background-color: grey;
+  static get styles() {
+    return css`
+    :host {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh; /* Full viewport height */
+    }
+    
+    .sidebar {
+      width: 250px; /* Fixed width for the sidebar */
+      overflow-y: auto;
+      padding: 20px; 
+      box-sizing: border-box;
+      border-right: 1px solid #ccc;
+    }
+    
+    .main-content {
+      flex-grow: 1; /* Takes up the remaining width */
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+    
+    h2, h3 {
+      margin: 0 0 20px 0;
+    }
+    
+    p {
+      margin: 0 0 10px 0;
+      cursor: pointer;
+      word-break: break-word; /* Prevents text from overflowing */
+    }
+    
+    p:hover {
+      text-decoration: underline;
+    }
+    
+    video {
+      width: 700px;
+      max-height: 500px;
+    }
+    
       }
-      `
-    ];
-  }
-  // LitElement rendering template of your element
-  render() {
-    return html`
-      <h2>${this.name}</h2>
-      ${
-        this.listings.map(
-          (item) => html`
-            <tv-channel 
-              title="${item.title}"
-              presenter="${item.metadata.author}"
-              @click="${this.itemClick}"
-            >
-            </tv-channel>
-          `
-        )
-      }
-      <div>
-        <!-- video -->
-        <!-- discord / chat - optional -->
-      </div>
-      <!-- dialog -->
-      <sl-dialog label="Dialog" class="dialog">
-        Please Waiting for...
-        <sl-button slot="footer" variant="primary" @click="${this.closeDialog}">Close</sl-button>
-      </sl-dialog>
     `;
   }
 
-  closeDialog(e) {
-    const dialog = this.shadowRoot.querySelector('.dialog');
-    dialog.hide();
-  }
+// Inside the TvApp class in tv-app.js
 
-  itemClick(e) {
-    this.activeItem = {
-      title:e.target.title,
-      id: e.target.id,
-      presenter: e.target.presenter
-    }
-    console.log(e.target);
-    const dialog = this.shadowRoot.querySelector('.dialog');
-    dialog.show();
-  }
+render() {
+  // Define a template for the video player. It will only be rendered if there's an active item with a video URL.
+  const videoPlayerTemplate = this.activeItem && this.activeItem.metadata.source ? html`
+    <iframe
+      width="560"
+      height="315"
+      src="${this.activeItem.metadata.source}"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  ` : null; // If there's no video URL, render nothing.
 
-  // LitElement life cycle for when any property changes
-  updated(changedProperties) {
-    if (super.updated) {
-      super.updated(changedProperties);
-    }
-    changedProperties.forEach((oldValue, propName) => {
-      if (propName === "source" && this[propName]) {
-        this.updateSourceData(this[propName]);
-      }
-    });
-  }
-
-  async updateSourceData(source) {
-    await fetch(source).then((resp) => resp.ok ? resp.json() : []).then((responseData) => {
-      if (responseData.status === 200 && responseData.data.items && responseData.data.items.length > 0) {
-        this.listings = [...responseData.data.items];
-      }
-    });
-  }
+  // Render the sidebar with course titles and the main content with the video player and description.
+  return html`
+    <div class="sidebar">
+      <h2>${this.name}</h2>
+      ${this.courses.map(item => html`
+        <p @click="${() => this.selectItem(item)}">${item.title}</p>
+      `)}
+    </div>
+    <div class="main-content">
+      <h3>${this.activeItem ? this.activeItem.title : 'Select a Topic'}</h3>
+      <div id="videoPlayerContainer">${videoPlayerTemplate}</div> <!-- Embed the video player template here -->
+      <p>${this.activeItem ? this.activeItem.description : 'Select a topic from the sidebar to show its content here.'}</p>
+    </div>
+  `;
 }
-// tell the browser about our tag and class it should run when it sees it
-customElements.define(TvApp.tag, TvApp);
+
+  
+  selectItem(item) {
+    this.activeItem = item;
+  
+    const videoContainer = this.shadowRoot.querySelector('#videoPlayerContainer');
+    const videoElement = videoContainer.querySelector('video') || document.createElement('video');
+    const sourceElement = videoElement.querySelector('source') || document.createElement('source');
+  
+    sourceElement.src = this.activeItem.videoUrl;
+    sourceElement.type = 'video/mp4';
+    
+    if (!videoElement.querySelector('source')) {
+      videoElement.appendChild(sourceElement);
+    }
+  
+    videoElement.load(); // This is necessary to load the new video after changing the source
+  
+    if (!videoContainer.querySelector('video')) {
+      videoContainer.appendChild(videoElement);
+    }
+  
+    this.requestUpdate();
+  }
+  
+  
+
+  async connectedCallback() {
+    super.connectedCallback();
+    await this.fetchCourses();
+  }
+
+  async fetchCourses() {
+    try {
+      const response = await fetch(this.source);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const json = await response.json();
+      this.courses = json.data.items.map(item => {
+        // Assuming 'source' might be directly on the item, not inside 'metadata'
+        return {
+          ...item,
+          videoUrl: item.metadata?.source || item.source
+        };
+      });
+      this.requestUpdate(); // Ensure the component updates with the new data
+    } catch (error) {
+      console.error('Could not fetch courses:', error);
+    }
+  }
+}  
+
+customElements.define('tv-app', TvApp);

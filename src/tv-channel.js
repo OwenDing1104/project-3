@@ -5,8 +5,9 @@ export class TvChannel extends LitElement {
   static get properties() {
     return {
       title: { type: String },
-      presenter: { type: String },
+      presenter: { type: String }, // Keep this if you plan to use it
       index: { type: Number },
+      description: { type: String },
     };
   }
 
@@ -15,7 +16,7 @@ export class TvChannel extends LitElement {
       :host {
         display: block;
         margin-bottom: 10px;
-        position: relative;
+        cursor: pointer;
       }
       .wrapper {
         padding: 16px;
@@ -26,36 +27,30 @@ export class TvChannel extends LitElement {
         align-items: center;
         gap: 16px;
       }
-      :host::before {
-        content: var(--index);
-        position: absolute;
-        left: -36px; 
-        top: 50%;
-        transform: translateY(-50%);
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: blue;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: bold;
+      :host(:hover) .wrapper {
+        background-color: #f0f0f0; /* Highlight on hover */
       }
-      h3, h4 {
+      h3 {
         margin: 0;
+      }
+      .index {
+        font-size: 0.8em;
+        color: #555;
       }
     `;
   }
 
   render() {
     return html`
-      <div class="wrapper" style="--index: '${this.index}';">
-        <h3>${this.title}</h3>
+      <div class="wrapper">
+        <span class="index">${this.index}.</span>
+        <div>
+          <h3>${this.title}</h3>
+          <p>${this.description}</p>
+        </div>
       </div>
     `;
-  }
+  }  
 }
 
 customElements.define('tv-channel', TvChannel);
