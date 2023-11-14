@@ -34,7 +34,7 @@
         "title": "Python Syntax",
         "description": "As we learned in the previous page, Python syntax can be executed by writing directly in the Command Line:",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=A2NnIWCYnMQ",
+          "source": "https://www.youtube.com/embed/A2NnIWCYnMQ",
           "author":"Stefan Rows"
         }
       },
@@ -48,7 +48,7 @@
         "title": "Python Comments",
         "description": "Comments can be used to explain Python code.",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=Y58AyTR3fX0",
+          "source": "https://www.youtube.com/embed/Y58AyTR3fX0",
           "author":"choobtorials"
         }
       },
@@ -62,7 +62,7 @@
         "title": "Python Variables",
         "description": "Variables are containers for storing data values.",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=X6TcB0DNLE8",
+          "source": "https://www.youtube.com/embed/X6TcB0DNLE8",
           "author":"Neso Academy"
         }
       },
@@ -76,7 +76,7 @@
         "title": "Python Data Types",
         "description": "In programming, data type is an important concept. Variables can store data of different types, and different types can do different things.",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=ppsCxnNm-JI&pp=ygURUHl0aG9uIERhdGEgVHlwZXM%3D",
+          "source": "https://www.youtube.com/embed/ppsCxnNm-JI",
           "author":"Alex The Analyst"
         }
       },
@@ -90,7 +90,7 @@
         "title": "Python Numbers",
         "description": "There are three numeric types in Python:",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=z9k6NloBCh0",
+          "source": "https://www.youtube.com/embed/z9k6NloBCh0",
           "author":"Simplilearn"
         }
       },
@@ -104,7 +104,7 @@
         "title": "Python Casting",
         "description": "There may be times when you want to specify a type on to a variable. This can be done with casting. Python is an object-orientated language, and as such it uses classes to define data types, including its primitive types.",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=2WZvl1R4A6g&pp=ygUOUHl0aG9uIENhc3Rpbmc%3D",
+          "source": "https://www.youtube.com/embed/2WZvl1R4A6g",
           "author":"Bro Code"
         }
       },
@@ -118,7 +118,7 @@
         "title": "Python Strings",
         "description": "Strings in python are surrounded by either single quotation marks, or double quotation marks.",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=Ctqi5Y4X-jA",
+          "source": "https://www.youtube.com/embed/Ctqi5Y4X-jA",
           "author":"Programming with Mosh"
         }
       },
@@ -132,7 +132,7 @@
         "title": "Python Booleans",
         "description": "Booleans represent one of two values: True or False.",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=1oXjj975oDQ",
+          "source": "https://www.youtube.com/embed/1oXjj975oDQ",
           "author":"Amigoscode"
         }
       },
@@ -146,7 +146,7 @@
         "title": "Python Operators",
         "description": "Operators are used to perform operations on variables and values.",
         "metadata": {
-          "source": "https://www.youtube.com/embed/watch?v=W7luvtXeQTA",
+          "source": "https://www.youtube.com/embed/W7luvtXeQTA",
           "author":"Bro Code"
         }
       }
