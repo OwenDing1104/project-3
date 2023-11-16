@@ -4,7 +4,7 @@ import { LitElement, html, css } from 'lit';
 export class TvApp extends LitElement {
   constructor() {
     super();
-    this.name = 'OwenDingTV'; // Set the default name to your channel name
+    this.name = 'OwenDingTV';
     this.source = new URL('../assets/channels.json', import.meta.url).href;
     this.courses = [];
     this.activeItem = null;
@@ -30,11 +30,11 @@ export class TvApp extends LitElement {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      height: 100vh; /* Full viewport height */
+      height: 100vh; 
     }
     
     .sidebar {
-      width: 250px; /* Fixed width for the sidebar */
+      width: 250px; 
       overflow-y: auto;
       padding: 20px; 
       box-sizing: border-box;
@@ -42,7 +42,7 @@ export class TvApp extends LitElement {
     }
     
     .main-content {
-      flex-grow: 1; /* Takes up the remaining width */
+      flex-grow: 1;
       padding: 20px;
       box-sizing: border-box;
       overflow-y: auto;
@@ -55,7 +55,7 @@ export class TvApp extends LitElement {
     p {
       margin: 0 0 10px 0;
       cursor: pointer;
-      word-break: break-word; /* Prevents text from overflowing */
+      word-break: break-word;
     }
     
     p:hover {
@@ -66,15 +66,12 @@ export class TvApp extends LitElement {
       width: 700px;
       max-height: 500px;
     }
-    
-      }
     `;
   }
 
 // Inside the TvApp class in tv-app.js
 
 render() {
-  // Define a template for the video player. It will only be rendered if there's an active item with a video URL.
   const videoPlayerTemplate = this.activeItem && this.activeItem.metadata.source ? html`
     <iframe
       width="560"

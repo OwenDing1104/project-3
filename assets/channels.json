@@ -12,14 +12,14 @@
 
           "id": "item-1",
           "indent": 1,
-          "location": "YouTube.html",
-          "slug": "Introduction",
+          "location": "1WhatIsPython.html",
+          "slug": "What is Python?",
           "order": 1,
           "parent": null,
           "title": "Introduction",
           "description": "Introduction to Python",
           "metadata": {
-            "source": "https://www.youtube.com/embed/kqtD5dpn9C8",
+            "source": "https://www.youtube.com/embed/Y8Tko2YC5hA",
             "author": "Programming with Mosh"
           }
         },        
@@ -27,7 +27,7 @@
       {
         "id": "item-2",
         "indent": 2,
-        "location": "YouTube.html",
+        "location": "2PythonSyntax.html",
         "slug": "Python Syntax",
         "order": 2,
         "parent": "item-1",
@@ -41,7 +41,7 @@
       {
         "id": "item-3",
         "indent": 3,
-        "location": "YouTube.html",
+        "location": "3PythonComments.html",
         "slug": "Python Comments",
         "order": 3,
         "parent": "item-1",
@@ -55,7 +55,7 @@
       {
         "id": "item-4",
         "indent": 4,
-        "location": "YouTube.html",
+        "location": "4PythonVariables.html",
         "slug": "Python Variables",
         "order": 4,
         "parent": "item-1",
@@ -69,7 +69,7 @@
       {
         "id": "item-5",
         "indent": 5,
-        "location": "YouTube.html",
+        "location": "5PythonDataTypes.html",
         "slug": "Python Data Types",
         "order": 5,
         "parent": "item-1",
@@ -83,7 +83,7 @@
       {
         "id": "item-6",
         "indent": 6,
-        "location": "YouTube.html",
+        "location": "6PythonNumbers.html",
         "slug": "Python Numbers",
         "order": 6,
         "parent": "item-1",
@@ -97,7 +97,7 @@
       {
         "id": "item-7",
         "indent": 7,
-        "location": "YouTube.html",
+        "location": "7PythonCasting.html",
         "slug": "Python Casting",
         "order": 7,
         "parent": "item-1",
@@ -111,7 +111,7 @@
       {
         "id": "item-8",
         "indent": 8,
-        "location": "YouTube.html",
+        "location": "8PythonStrings.html",
         "slug": "Python Strings",
         "order": 8,
         "parent": "item-1",
@@ -125,7 +125,7 @@
       {
         "id": "item-9",
         "indent": 9,
-        "location": "YouTube.html",
+        "location": "9PythonBooleans.html",
         "slug": "Python Booleans",
         "order": 9,
         "parent": "item-1",
@@ -139,7 +139,7 @@
       {
         "id": "item-10",
         "indent": 10,
-        "location": "YouTube.html",
+        "location": "10PythonOperators.html",
         "slug": "Python Operators",
         "order": 10,
         "parent": "item-1",
