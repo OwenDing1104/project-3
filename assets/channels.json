@@ -17,9 +17,9 @@
           "order": 1,
           "parent": null,
           "title": "Introduction",
-          "description": "Introduction to Python",
+          "description": "",
           "metadata": {
-            "source": "https://www.youtube.com/embed/Y8Tko2YC5hA",
+            "source": "",
             "author": "Programming with Mosh"
           }
         },        
@@ -32,9 +32,9 @@
         "order": 2,
         "parent": "item-1",
         "title": "Python Syntax",
-        "description": "As we learned in the previous page, Python syntax can be executed by writing directly in the Command Line:",
+        "description": "",
         "metadata": {
-          "source": "https://www.youtube.com/embed/A2NnIWCYnMQ",
+          "source": "",
           "author":"Stefan Rows"
         }
       },
@@ -46,9 +46,9 @@
         "order": 3,
         "parent": "item-1",
         "title": "Python Comments",
-        "description": "Comments can be used to explain Python code.",
+        "description": "",
         "metadata": {
-          "source": "https://www.youtube.com/embed/Y58AyTR3fX0",
+          "source": "",
           "author":"choobtorials"
         }
       },
@@ -60,9 +60,9 @@
         "order": 4,
         "parent": "item-1",
         "title": "Python Variables",
-        "description": "Variables are containers for storing data values.",
+        "description": "",
         "metadata": {
-          "source": "https://www.youtube.com/embed/X6TcB0DNLE8",
+          "source": "",
           "author":"Neso Academy"
         }
       },
@@ -74,9 +74,9 @@
         "order": 5,
         "parent": "item-1",
         "title": "Python Data Types",
-        "description": "In programming, data type is an important concept. Variables can store data of different types, and different types can do different things.",
+        "description": "",
         "metadata": {
-          "source": "https://www.youtube.com/embed/ppsCxnNm-JI",
+          "source": "",
           "author":"Alex The Analyst"
         }
       },
@@ -88,9 +88,9 @@
         "order": 6,
         "parent": "item-1",
         "title": "Python Numbers",
-        "description": "There are three numeric types in Python:",
+        "description": "",
         "metadata": {
-          "source": "https://www.youtube.com/embed/z9k6NloBCh0",
+          "source": "",
           "author":"Simplilearn"
         }
       },
@@ -102,9 +102,9 @@
         "order": 7,
         "parent": "item-1",
         "title": "Python Casting",
-        "description": "There may be times when you want to specify a type on to a variable. This can be done with casting. Python is an object-orientated language, and as such it uses classes to define data types, including its primitive types.",
+        "description": "",
         "metadata": {
-          "source": "https://www.youtube.com/embed/2WZvl1R4A6g",
+          "source": "",
           "author":"Bro Code"
         }
       },
@@ -116,9 +116,9 @@
         "order": 8,
         "parent": "item-1",
         "title": "Python Strings",
-        "description": "Strings in python are surrounded by either single quotation marks, or double quotation marks.",
+        "description": "",
         "metadata": {
-          "source": "https://www.youtube.com/embed/Ctqi5Y4X-jA",
+          "source": "",
           "author":"Programming with Mosh"
         }
       },
@@ -130,9 +130,9 @@
         "order": 9,
         "parent": "item-1",
         "title": "Python Booleans",
-        "description": "Booleans represent one of two values: True or False.",
+        "description": "",
         "metadata": {
-          "source": "https://www.youtube.com/embed/1oXjj975oDQ",
+          "source": "",
           "author":"Amigoscode"
         }
       },
@@ -144,7 +144,7 @@
         "order": 10,
         "parent": "item-1",
         "title": "Python Operators",
-        "description": "Operators are used to perform operations on variables and values.",
+        "description": "",
         "metadata": {
           "source": "https://www.youtube.com/embed/W7luvtXeQTA",
           "author":"Bro Code"

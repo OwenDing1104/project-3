@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import "@lrnwebcomponents/video-player/video-player.js";
-import "./tv-channel.js"; 
+import "./tv-channel.js";
 
 export class TvApp extends LitElement {
   static get properties() {
@@ -10,6 +10,7 @@ export class TvApp extends LitElement {
       listings: { type: Array },
       activeItem: { type: Object },
       currentIndex: { type: Number },
+      content: { type: String },
     };
   }
 
@@ -30,6 +31,7 @@ export class TvApp extends LitElement {
         grid-column: 2;
         grid-row: 1;
         position: relative;
+        overflow-y: auto;
       }
       .tv-channel-list {
         grid-column: 1;
@@ -57,6 +59,23 @@ export class TvApp extends LitElement {
       button:disabled {
         background: #cccccc;
       }
+      .content {
+        margin-top: 20px;
+      }
+      p { 
+        font-size: 14px;
+        border: 1px solid #cccccc;
+        padding: 20px;
+        border-radius: 4px;
+      }
+      h1 {
+        font-size: 32px;
+        font-weight: bold;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
     `;
   }
 
@@ -66,43 +85,67 @@ export class TvApp extends LitElement {
     this.source = './assets/channels.json';
     this.listings = [];
     this.activeItem = null;
-    this.currentIndex = 0; // Initialize to the first item
+    this.currentIndex = 0;
+    this.content = '';
   }
 
-  render() {
-    return html`
-      <div class="lecture-container">
-        <div class="tv-channel-list">
-          ${this.listings.map((item, index) => html`
-            <tv-channel
-              title="${item.title}"
-              description="${item.description}"
-              .index="${index + 1}"
-              @click="${() => this.selectItem(index)}"
-            ></tv-channel>
-          `)}
-        </div>
-        <div class="lecture-screen">
-          ${this.activeItem && this.activeItem.metadata.source ? html`
-            <video-player
-              source="${this.activeItem.metadata.source}"
-              accent-color="orange"
-              dark
-            ></video-player>
-            <div id="navigationButtons">
-              <button ?disabled="${this.currentIndex <= 0}" @click="${this.prevItem}">Previous Page</button>
-              <button ?disabled="${this.currentIndex >= this.listings.length - 1}" @click="${this.nextItem}">Next Page</button>
-            </div>
-          ` : html`<p>Select a topic from the sidebar to show its content here.</p>`}
+
+render() {
+  return html`
+    <div class="lecture-container">
+      <div class="tv-channel-list">
+        ${this.listings.map((item, index) => html`
+          <tv-channel
+            title="${item.title}"
+            description="${item.description}"
+            .index="${index + 1}"
+            @click="${() => this.selectItem(index)}"
+          ></tv-channel>
+        `)}
+      </div>
+      <div class="lecture-screen">
+        ${this.activeItem ? html`
+          <div class="video-and-content">
+            ${this.activeItem.metadata.source ? html`
+              <video-player
+                source="${this.activeItem.metadata.source}"
+                accent-color="orange"
+                dark
+              ></video-player>
+            ` : ''}
+            <div class="content" .innerHTML="${this.content}"></div>
+          </div>
+        ` : ''}
+        <div id="navigationButtons">
+          <button ?disabled="${this.currentIndex <= 0}" @click="${this.prevItem}">Previous Page</button>
+          <button ?disabled="${this.currentIndex >= this.listings.length - 1}" @click="${this.nextItem}">Next Page</button>
         </div>
       </div>
-    `;
-  }
+    </div>
+  `;
+}
 
   selectItem(index) {
     this.currentIndex = index;
     this.activeItem = this.listings[index];
-    this.requestUpdate();
+    this.fetchContentForActiveItem();
+  }
+
+  async fetchContentForActiveItem() {
+    if (this.activeItem && this.activeItem.location) {
+      try {
+        const response = await fetch(`./assets/${this.activeItem.location}`);
+        if (response.ok) {
+          this.content = await response.text();
+        } else {
+          console.error('Could not fetch content for:', this.activeItem.title);
+          this.content = ''; // Reset content if the fetch fails
+        }
+      } catch (error) {
+        console.error('Failed to fetch content:', error);
+        this.content = ''; // Reset content on error
+      }
+    }
   }
 
   prevItem() {
@@ -131,7 +174,7 @@ export class TvApp extends LitElement {
       const json = await response.json();
       if (json.status === 200 && json.data.items) {
         this.listings = json.data.items;
-        this.activeItem = this.listings[this.currentIndex]; // Initialize the active item
+        this.selectItem(0); // Select the first item by default
       }
     } catch (error) {
       console.error('Could not fetch listings:', error);
