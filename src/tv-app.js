@@ -11,6 +11,10 @@ export class TvApp extends LitElement {
       activeItem: { type: Object },
       currentIndex: { type: Number },
       content: { type: String },
+      timeRemaining: { type: Number },
+      totalTime: { type: Number },
+      currentPageTime: { type: Number },
+      timer: { type: Object }
     };
   }
 
@@ -18,14 +22,14 @@ export class TvApp extends LitElement {
     return css`
       :host {
         display: block;
-        padding: 16px;
+        padding: 20px;
         height: 100vh;
       }
       .lecture-container {
         display: grid;
         grid-template-columns: 300px 1fr;
-        gap: 32px;
-        height: calc(100% - 32px);
+        gap: 50px;
+        height: 900px;
       }
       .lecture-screen {
         grid-column: 2;
@@ -39,7 +43,7 @@ export class TvApp extends LitElement {
         overflow-y: auto;
       }
       video-player {
-        width: 700px;
+        width: 800px;
         max-height: 500px;
       }
       #navigationButtons {
@@ -60,7 +64,7 @@ export class TvApp extends LitElement {
         background: #cccccc;
       }
       .content {
-        margin-top: 20px;
+        margin-top: 60px;
       }
       p { 
         font-size: 14px;
@@ -76,6 +80,15 @@ export class TvApp extends LitElement {
         font-size: 20px;
         font-weight: bold;
       }
+      .timer {
+        position: fixed;
+        top: 10px;
+        right: 50px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 0.9em;
+      }
     `;
   }
 
@@ -86,66 +99,87 @@ export class TvApp extends LitElement {
     this.listings = [];
     this.activeItem = null;
     this.currentIndex = 0;
-    this.content = '';
+    this.remainingTime = 0;
+    this.canNavigateNext = false;
   }
 
-
-render() {
-  return html`
-    <div class="lecture-container">
-      <div class="tv-channel-list">
-        ${this.listings.map((item, index) => html`
-          <tv-channel
-            title="${item.title}"
-            description="${item.description}"
-            .index="${index + 1}"
-            @click="${() => this.selectItem(index)}"
-          ></tv-channel>
-        `)}
-      </div>
-      <div class="lecture-screen">
-        ${this.activeItem ? html`
-          <div class="video-and-content">
-            ${this.activeItem.metadata.source ? html`
-              <video-player
-                source="${this.activeItem.metadata.source}"
-                accent-color="orange"
-                dark
-              ></video-player>
-            ` : ''}
-            <div class="content" .innerHTML="${this.content}"></div>
-          </div>
-        ` : ''}
-        <div id="navigationButtons">
-          <button ?disabled="${this.currentIndex <= 0}" @click="${this.prevItem}">Previous Page</button>
-          <button ?disabled="${this.currentIndex >= this.listings.length - 1}" @click="${this.nextItem}">Next Page</button>
+  render() {
+    return html`
+      <div class="lecture-container">
+        <div class="tv-channel-list">
+          ${this.listings.map((item, index) => html`
+            <tv-channel
+              title="${item.title}"
+              description="${item.description}"
+              .index="${index + 1}"
+              @click="${() => this.selectItem(index)}"
+            ></tv-channel>
+          `)}
+        </div>
+        <div class="lecture-screen">
+          ${this.activeItem ? html`
+            <div class="video-and-content">
+              ${this.activeItem.metadata.source ? html`
+                <video-player
+                  source="${this.activeItem.metadata.source}"
+                  accent-color="orange"
+                  dark
+                ></video-player>
+              ` : ''}
+              <div class="content" .innerHTML="${this.content}"></div>
+            </div>
+            <div id="navigationButtons">
+              <button ?disabled="${this.currentIndex <= 0}" @click="${this.prevItem}">Previous Page</button>
+              <button ?disabled="${!this.canNavigateNext}" @click="${this.nextItem}">Next Page</button>
+            </div>
+          ` : ''}
         </div>
       </div>
-    </div>
-  `;
-}
+      <div class="timer">
+        Time left: ${this.formatTime(this.remainingTime)}
+      </div>
+    `;
+  }
 
   selectItem(index) {
     this.currentIndex = index;
     this.activeItem = this.listings[index];
     this.fetchContentForActiveItem();
+    this.startPageTimer();
   }
 
   async fetchContentForActiveItem() {
     if (this.activeItem && this.activeItem.location) {
-      try {
-        const response = await fetch(`./assets/${this.activeItem.location}`);
-        if (response.ok) {
-          this.content = await response.text();
-        } else {
-          console.error('Could not fetch content for:', this.activeItem.title);
-          this.content = ''; 
-        }
-      } catch (error) {
-        console.error('Failed to fetch content:', error);
-        this.content = ''; 
+      const response = await fetch(`./assets/${this.activeItem.location}`);
+      if (response.ok) {
+        this.content = await response.text();
+      } else {
+        console.error('Could not fetch content for:', this.activeItem.title);
+        this.content = ''; // Reset content if the fetch fails
       }
     }
+  }
+
+  startPageTimer() {
+    clearInterval(this.pageTimer);
+    this.remainingTime = parseInt(this.activeItem.metadata.time);
+    this.canNavigateNext = false;
+
+    this.pageTimer = setInterval(() => {
+      if (this.remainingTime > 0) {
+        this.remainingTime--;
+      } else {
+        this.canNavigateNext = true;
+        clearInterval(this.pageTimer);
+      }
+      this.requestUpdate();
+    }, 1000);
+  }
+
+  formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   }
 
   prevItem() {
@@ -155,7 +189,7 @@ render() {
   }
 
   nextItem() {
-    if (this.currentIndex < this.listings.length - 1) {
+    if (this.canNavigateNext && this.currentIndex < this.listings.length - 1) {
       this.selectItem(this.currentIndex + 1);
     }
   }

@@ -20,7 +20,7 @@ export class TvChannel extends LitElement {
         box-sizing: border-box;
       }
       .wrapper {
-        padding: 10px 16px;
+        padding: 60px 20px;
         margin: 4px 0;
         border-radius: 5px;
         background-color: #fff;
@@ -28,7 +28,7 @@ export class TvChannel extends LitElement {
         transition: background-color 0.3s ease, box-shadow 0.3s ease;
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 24px;
         cursor: pointer;
       }
       :host(:hover) .wrapper {
