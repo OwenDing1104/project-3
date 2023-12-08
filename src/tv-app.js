@@ -139,11 +139,11 @@ render() {
           this.content = await response.text();
         } else {
           console.error('Could not fetch content for:', this.activeItem.title);
-          this.content = ''; // Reset content if the fetch fails
+          this.content = ''; 
         }
       } catch (error) {
         console.error('Failed to fetch content:', error);
-        this.content = ''; // Reset content on error
+        this.content = ''; 
       }
     }
   }
